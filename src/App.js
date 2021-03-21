@@ -1,54 +1,46 @@
-import React, {Component} from 'react'
-import axios from 'axios'
-import { Route,  Switch, NavLink } from 'react-router-dom'
-import HomePage from './views/HomePage'
-import MoviesPage from './views/MoviesPage'
-import MovieDetailsPage from './views/MovieDetailsPage'
+import { lazy, Suspense } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
-class App extends Component {
+import AppBar from './components/AppBar';
+import Container from './components/Container';
+import FilmPendingView from './views/FilmPendingView';
 
-  state= {
-  films: [],
-  }
+const HomePage = lazy(() =>
+  import('./views/HomePage' /* webpackChunkName: "HomePage" */),
+);
+const MoviesPage = lazy(() =>
+  import('./views/MoviesPage' /* webpackChunkName: "MoviesPage" */),
+);
+const NotFoundView = lazy(() =>
+  import('./views/NotFoundView' /* webpackChunkName: "NotFoundView" */),
+);
+const MovieDetailsPage = lazy(() =>
+  import('./views/MovieDetailsPage' /* webpackChunkName: "MovieDetailsPage" */),
+);
 
- 
-       
-  
-  
- 
-
-  hendlerClick = (e) => {
-     e.preventDefault()
-    console.log(e.currentTarget)
-  }
-  
-  
-  
-  render() {     
-    
-    return (
-      <>
-        <ul>
-          <li> <NavLink exact to="/">Home</NavLink> </li>
-          <li> <NavLink to="/movies">Movies </NavLink> </li>
-        </ul>
-        
-
+export default function App() {
+  return (
+    <Container>
+      <AppBar />
+      <Suspense fallback={<FilmPendingView />}>
         <Switch>
-          <Route exact path="/" component={HomePage} />
-           <Route exact path="/movies" component={MoviesPage} />
-          <Route path="/movies/:movieId" component={MovieDetailsPage} />
+          <Route path="/" exact>
+            <HomePage />
+          </Route>
+          <Route path="/movies" exact>
+            <MoviesPage />
+          </Route>
+
+          <Route path="/movies/:movieId">
+            <MovieDetailsPage />
+          </Route>
+          <Route>
+            <NotFoundView />
+          </Route>
         </Switch>
-        
-      </>
-     
+      </Suspense>
+      <ToastContainer autoClose={3000} />
+    </Container>
   );
-  }
 }
-
-
-
-export default App;
-
-// 73aee633aaf5c834566a91020ffc342e
-
