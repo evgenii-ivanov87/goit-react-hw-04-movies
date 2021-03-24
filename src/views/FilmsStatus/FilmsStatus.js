@@ -65,7 +65,7 @@ function FilmsStatus({ filmName, queryURL }) {
 
 FilmsStatus.propTypes = {
   filmName: PropTypes.string.isRequired,
-  queryURL: PropTypes.string,
+  queryURL: PropTypes.string.isRequired,
 };
 
 export default FilmsStatus;

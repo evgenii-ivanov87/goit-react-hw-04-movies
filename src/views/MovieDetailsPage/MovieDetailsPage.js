@@ -10,7 +10,7 @@ import { fetchMovieDetails, POSTER_URL } from '../../services/movies-api';
 import Cast from '../Cast';
 import Reviews from '../Reviews';
 import FilmPendingView from '../FilmPendingView';
-
+import defaultImg from '../FilmGallery/default.jpg'
 import s from './MovieDetailsPage.module.css';
 
 export default function MovieDetailsPage() {
@@ -27,7 +27,7 @@ export default function MovieDetailsPage() {
       <div className={s.wrapper}>
         <img
           className={s.image}
-          src={POSTER_URL + film.poster_path}
+          src={film.poster_path ? POSTER_URL + film.poster_path:defaultImg }
           alt={film.title}
           widht="300"
           height="450"
